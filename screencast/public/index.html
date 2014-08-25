@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en_US">
+<head>
+    <meta charset="utf-8">
+    <title>Kioto Sushi</title>
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Droid+Sans:400,700">
+    <link type="text/css" rel="stylesheet" href="vendor/kendoui/kendo.common.min.css"/>
+    <link type="text/css" rel="stylesheet" href="vendor/kendoui/kendo.default.min.css"/>
+    <link type="text/css" rel="stylesheet" href="vendor/blueprint/screen.css"/>
+</head>
+<body class="k-content" style="padding: 10px;">
+
+<h1>Менеджер контентов</h1>
+
+<form method="post" id="contact-form" class="append-bottom">
+    <div class="k-form-text-row">
+        <label for="contact-name">Name:</label>
+        <input type="text" id="contact-name" name="name" class="k-textbox"/>
+    </div>
+    <div class="k-form-text-row">
+        <label for="contact-number">Number:</label>
+        <input type="text" id="contact-number" name="number" class="k-textbox"/>
+    </div>
+    <div class="k-form-text-row">
+        <label for="contact-email">Email:</label>
+        <input type="text" id="contact-email" name="email" class="k-textbox"/>
+    </div>
+    <div style="padding-left: 93px;">
+        <button type="submit" class="k-button">Add</button>
+    </div>
+</form>
+
+<hr>
+
+<div id="contact-form-edit-block"></div>
+
+<table id="contact-items">
+    <thead>
+    <tr>
+        <th data-field="name">Name:</th>
+        <th data-field="number">Number:</th>
+        <th data-field="email">Email:</th>
+        <th data-field="email">Действие:</th>
+    </tr>
+    </thead>
+
+</table>
+
+<script type="text/template" id="contact-item">
+
+    <td><%= name %></td>
+    <td><%= number %></td>
+    <td><%= email %></td>
+    <td>
+        <a class="destroy" href="#contacts/<%= contact_id %>">Delete</a>
+        <a class="edit" href="#contacts/<%= contact_id %>/edit">Edit</a>
+    </td>
+
+</script>
+
+<script type="text/template" id="contact-item-edit">
+
+    <h2>Редактирование записи: <%= name %></h2>
+
+    <form method="post" id="contact-form-edit" class="append-bottom">
+        <div class="k-form-text-row">
+            <label for="contact-name-edit">Name:</label>
+            <input type="text" id="contact-name-edit" name="name" class="k-textbox" value="<%= name %>"/>
+        </div>
+        <div class="k-form-text-row">
+            <label for="contact-number">Number:</label>
+            <input type="text" id="contact-number-edit" name="number" class="k-textbox" value="<%= number %>"/>
+        </div>
+        <div class="k-form-text-row">
+            <label for="contact-email">Email:</label>
+            <input type="text" id="contact-email-edit" name="email" class="k-textbox" value="<%= email %>"/>
+        </div>
+        <div style="padding-left: 93px;">
+            <button type="submit" class="k-button">Update</button>
+            <button type="button" class="k-button">Cancel</button>
+        </div>
+    </form>
+
+</script>
+
+<script type="text/javascript" src="vendor/jquery-1.10.2.js"></script>
+<script type="text/javascript" src="vendor/kendo.all.min.js"></script>
+<script type="text/javascript" src="vendor/underscore.js"></script>
+<script type="text/javascript" src="vendor/backbone.js"></script>
+<script type="text/javascript" src="assets/javascripts/application.js"></script>
+<script type="text/javascript" src="assets/javascripts/application/model.js"></script>
+<script type="text/javascript" src="assets/javascripts/application/collection.js"></script>
+<script type="text/javascript" src="assets/javascripts/application/view.js"></script>
+<script type="text/javascript" src="assets/javascripts/application/router.js"></script>
+
+<script type="text/javascript">
+    new App.Router.Main();
+    Backbone.history.start();
+
+    App.Contacts = new App.Collection.Contacts();
+    App.Contacts.fetch().then(function () {
+        new App.View.Main({
+            collection: App.Contacts
+        });
+    });
+</script>
+
+</body>
+</html>
